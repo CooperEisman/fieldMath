@@ -1,4 +1,4 @@
-Vector VectorOne 1 2 3
-Vector VectorTwo 1 2 3 4 5
-Point PointOne 12 34 56
-Point PointTwo 12 34 56
+Vector VectorTwo 1.0 2.0 3.0 4.0 5.0
+Point PointOne 12.0 34.0 56.0
+Point PointTwo 12.0 34.0 56.0
+Vector VectorOne 3.0 -2.0 7.0

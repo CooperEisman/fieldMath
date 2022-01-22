@@ -60,6 +60,11 @@ public class fieldConfig {
 
     //Loads Data from File
     private void load() {
+
+        items = new ArrayList<fieldItem>();
+        names = new ArrayList<String>();
+
+        configureReader();
         int len = 0;
 
         while(fileReader.hasNextLine()) {
@@ -108,7 +113,7 @@ public class fieldConfig {
 
         try {
             for(int i = 0; i < items.size(); i++) {
-                fileWriter.write(items.get(i).type() + " " + names.get(i) + items.get(i).args());
+                fileWriter.write(items.get(i).type() + " " + names.get(i) + items.get(i).args() + "\n");
             }
             fileWriter.close();
         } catch (IOException e) {
@@ -119,7 +124,6 @@ public class fieldConfig {
 
     //Returns all items in an Array
     public fieldItem[] getItems() {
-        configureReader();
         load();
 
         fieldItem[] out = new fieldItem[items.size()];
@@ -133,7 +137,6 @@ public class fieldConfig {
 
     //Returns all names in an Array
     public String[] getNames() {
-        configureReader();
         load();
 
         String[] out = new String[names.size()];
@@ -144,6 +147,35 @@ public class fieldConfig {
 
         return out;
     }
+
+    //Adds a value, returns true if value is instead overridden
+    public boolean addItem(fieldItem item, String name) {
+        load();
+        if (names.contains(name)) {
+            items.set(names.indexOf(name),item);
+            save();
+            return true;
+        }
+
+        names.add(name);
+        items.add(item);
+        save();
+        return false;
+    }
+
+    //Removes a value, returns true if value is removed successfully
+    public boolean removeItem(String name) {
+        load();
+        if (names.contains(name)) {
+            items.remove(names.indexOf(name));
+            names.remove(names.indexOf(name));
+            save();
+            return true;
+        }
+        return false;
+    }
+
+
 
     public String toString() {
         String out = "";
