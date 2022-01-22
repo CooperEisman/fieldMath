@@ -176,17 +176,16 @@ public class fieldRunner {
 
     private void remove(int itemIndex) {
         System.out.println("\n");
-        System.out.println(ANSI_YELLOW + "Are you sure you want to clear ALL saved data? (yes/no)" + ANSI_RESET + "\n -> ");
+        System.out.print(ANSI_YELLOW + "Are you sure you want to delete '" + itemNames.get(itemIndex) + "' permanently? (yes/no)" + ANSI_RESET + "\n -> ");
         command = console.nextLine();
 
         if(command.equals("yes")) {
-            config.clearDocument();
+            config.removeItem(itemNames.get(itemIndex));
             System.out.println(ANSI_BLUE + "Operation Successful." + ANSI_RESET + "\n");
         } else {
             System.out.println(ANSI_RED + "Operation Stopped. No Changes Made" + ANSI_RESET + "\n");
         }
     }
-
     private void clear() {
         System.out.println("\n");
         System.out.print(ANSI_YELLOW + "Are you sure you want to clear ALL saved data? (yes/no)" + ANSI_RESET + "\n -> ");
