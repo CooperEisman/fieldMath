@@ -23,7 +23,7 @@ public class fieldVector implements fieldItem {
 
     //returns type
     public String type() {
-        return "Vector";
+        return "vector";
     }
 
     //Print Function Handling

@@ -9,7 +9,7 @@ public class fieldPoint implements fieldItem {
 
     //returns Type
     public String type() {
-        return "Point";
+        return "point";
     }
 
     //toString for output

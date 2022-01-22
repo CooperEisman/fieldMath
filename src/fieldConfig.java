@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -75,7 +76,7 @@ public class fieldConfig {
         configureReader();
 
         while(fileReader.hasNextLine()) {
-            String newLine = fileReader.nextLine();
+            String newLine = fileReader.nextLine().toLowerCase(Locale.ROOT);
             stringReader = new Scanner(newLine).useDelimiter(" ");
             args = new ArrayList<String>();
 
@@ -85,7 +86,7 @@ public class fieldConfig {
 
             names.add(args.get(1));
 
-            if(args.get(0).equals("Vector")) {
+            if(args.get(0).equals("vector")) {
                 dblArgs = new double[args.size() - 2];
 
                 for(int i = 2; i < args.size(); i++) {
@@ -93,7 +94,7 @@ public class fieldConfig {
                 }
 
                 items.add(new fieldVector(dblArgs));
-            } else if(args.get(0).equals("Point")) {
+            } else if(args.get(0).equals("point")) {
                 dblArgs = new double[args.size() - 2];
 
                 for (int i = 2; i < args.size(); i++) {
@@ -142,7 +143,7 @@ public class fieldConfig {
         String[] out = new String[names.size()];
 
         for (int i = 0; i < items.size(); i++) {
-            out[i] = names.get(i);
+                out[i] = names.get(i);
         }
 
         return out;
@@ -151,6 +152,7 @@ public class fieldConfig {
     //Adds a value, returns true if value is instead overridden
     public boolean addItem(fieldItem item, String name) {
         load();
+        name = name.toLowerCase(Locale.ROOT);
         if (names.contains(name)) {
             items.set(names.indexOf(name),item);
             save();
@@ -165,6 +167,7 @@ public class fieldConfig {
 
     //Removes a value, returns true if value is removed successfully
     public boolean removeItem(String name) {
+        name = name.toLowerCase(Locale.ROOT);
         load();
         if (names.contains(name)) {
             items.remove(names.indexOf(name));
@@ -175,12 +178,21 @@ public class fieldConfig {
         return false;
     }
 
-
-
     public String toString() {
         String out = "";
         for(int i = 0;i < items.size(); i++) {
-            out += items.get(i).type() + " " + names.get(i) + " " + items.get(i) + "\n";
+            out += items.get(i).type() + " '" + names.get(i) + "': " + items.get(i) + "\n";
+        }
+        return out;
+    }
+
+    public String toString(String filter) {
+
+        String out = "";
+        for(int i = 0;i < items.size(); i++) {
+            if(filter.equals(items.get(i).type())) {
+                out += items.get(i).type() + " '" + names.get(i) + "': " + items.get(i) + "\n";
+            }
         }
         return out;
     }
