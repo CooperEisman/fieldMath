@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -10,12 +11,15 @@ public class fieldRunner {
     private Scanner console = new Scanner(System.in);
     private String command;
     public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RESET = "\u001B[0m";
     private Scanner stringReader = new Scanner("");
+
     private ArrayList<String> args;
+    private double[] tempArgs;
 
     public fieldRunner() {
-        command = "";
+        updateData();
 
         while(!shouldDie) {
             printMenu();
@@ -28,28 +32,56 @@ public class fieldRunner {
             }
 
             if(command.startsWith("add")) {
-
-            } else if (command.startsWith("remove")) {
-
-            } else if (command.startsWith("edit")) {
-
-            } else if (command.startsWith("compute")) {
-
-            } else if (command.startsWith("view")) {
-                if(args.size() > 2|| args.size() < 2) {
+                if(args.size() != 3) {
                     System.out.println(ANSI_RED + "Incorrect Usage. Operation Failed" + ANSI_RESET + "\n");
-                }
-                if (args.get(1).equals("vectors")) {
-                    System.out.println(config.toString("vector"));
-                } else if (args.get(1).equals("points")) {
-                    System.out.println(config.toString("point"));
-                } else if (args.get(1).equals("all")) {
-                    System.out.println(config.toString());
                 } else {
-                    System.out.println(ANSI_RED + "Incorrect Argument Usage. Operation Failed" + ANSI_RESET + "\n");
+                    if(itemNames.contains(args.get(2))) {
+                        System.out.println(ANSI_RED + "Item '" + args.get(2) + "' already exists!" + ANSI_RESET + "\n");
+                } else {
+                    add(args.get(1), args.get(2));
                     System.out.println();
                 }
-
+            }
+            } else if (command.startsWith("remove")) {
+                if(args.size() != 2) {
+                    System.out.println(ANSI_RED + "Incorrect Usage. Operation Failed" + ANSI_RESET + "\n");
+                } else {
+                    if(itemNames.contains(args.get(1))) {
+                        edit(itemNames.indexOf(args.get(1)));
+                    } else {
+                        System.out.println(ANSI_RED + "Item '" + args.get(1) + "' does not exist!" + ANSI_RESET + "\n");
+                        System.out.println();
+                    }
+                }
+            } else if (command.startsWith("edit")) {
+                if(args.size() != 2) {
+                    System.out.println(ANSI_RED + "Incorrect Usage. Operation Failed" + ANSI_RESET + "\n");
+                } else {
+                    if(itemNames.contains(args.get(1))) {
+                        edit(itemNames.indexOf(args.get(1)));
+                    } else {
+                        System.out.println(ANSI_RED + "Item '" + args.get(1) + "' does not exist!" + ANSI_RESET + "\n");
+                        System.out.println();
+                    }
+                }
+            } else if (command.startsWith("compute"))
+            {
+                compute();
+            } else if (command.startsWith("view")) {
+                if (args.size() > 2 || args.size() < 2) {
+                    System.out.println(ANSI_RED + "Incorrect Usage. Operation Failed" + ANSI_RESET + "\n");
+                } else {
+                    if (args.get(1).equals("vectors")) {
+                        System.out.println(config.toString("vector"));
+                    } else if (args.get(1).equals("points")) {
+                        System.out.println(config.toString("point"));
+                    } else if (args.get(1).equals("all")) {
+                        System.out.println(config.toString());
+                    } else {
+                        System.out.println(ANSI_RED + "Incorrect Argument Usage. Operation Failed" + ANSI_RESET + "\n");
+                        System.out.println();
+                    }
+                }
             } else {
                 System.out.println(ANSI_RED + "Command does not exist." + ANSI_RESET + "\n");
             }
@@ -65,6 +97,69 @@ public class fieldRunner {
         System.out.println(" - Edit <Item Name>");
         System.out.println(" - Compute");
         System.out.print("===========================\n\n\n -> ");
+    }
+
+    private void compute() {
+
+    }
+
+    private void add(String type, String name) {
+
+    }
+
+    private void edit(int itemIndex) {
+        fieldItem item = items.get(itemIndex);
+        String name = itemNames.get(itemIndex);
+
+        System.out.println("\n");
+        System.out.println("You are editing " + item.type() + " '" + name + "'");
+        System.out.println("Current Value: " + item);
+        System.out.println("Type 'cancel' at any point to stop this operation.\n");
+
+        tempArgs = new double[item.getOrder()];
+
+        for(int i = 0; i < item.getOrder(); i++) {
+            System.out.print("Dimension #" + i + ": ");
+            command = "" + console.nextDouble();
+            console.nextLine();
+            System.out.println();
+
+            if(command.toLowerCase(Locale.ROOT).equals("cancel")) {
+                System.out.println(ANSI_RED + "Operation Halted, No Changes Made" + ANSI_RESET + "\n");
+                return;
+            } else {
+                tempArgs[i] = Double.parseDouble(command);
+            }
+        }
+
+        fieldItem temp;
+        if(item.type().equals("vector")) {
+            temp = new fieldVector(tempArgs);
+        } else {
+            temp = new fieldPoint(tempArgs);
+        }
+
+        System.out.print(item.type() + " '" + name + "' will become: " + temp + " (yes/no) \n -> ");
+        command = console.nextLine().toLowerCase(Locale.ROOT);
+
+
+        if(command.equals("yes")) {
+            config.addItem(temp,name);
+            System.out.println(ANSI_BLUE + "Operation Successful." + ANSI_RESET + "\n");
+        } else {
+            System.out.println(ANSI_RED + "Operation Halted. No Changes Made" + ANSI_RESET + "\n");
+        }
+    }
+
+    private void remove(int itemIndex) {
+
+    }
+
+    private void updateData() {
+        itemNames = new ArrayList<String>();
+        items = new ArrayList<fieldItem>();
+        itemNames.addAll(Arrays.asList(config.getNames()));
+        items.addAll(Arrays.asList(config.getItems()));
     }
 }
 

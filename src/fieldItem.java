@@ -5,4 +5,6 @@ interface fieldItem {
     String toString();
 
     String args();
+
+    int getOrder();
 }
