@@ -196,4 +196,14 @@ public class fieldConfig {
         }
         return out;
     }
+
+    public int numItems(String type) {
+        int out = 0;
+        for(int i = 0;i < items.size(); i++) {
+            if(type.equals(items.get(i).type())) {
+                out++;
+            }
+        }
+        return out;
+    }
 }

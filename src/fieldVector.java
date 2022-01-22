@@ -18,7 +18,7 @@ public class fieldVector implements fieldItem {
 
     //intialize with two points
     public fieldVector(fieldPoint pointOne, fieldPoint pointTwo) {
-        components = pointOne.findDifference(pointTwo).getComponents();
+        components = pointOne.returnDifference(pointTwo).getComponents();
     }
 
     //returns type
@@ -131,9 +131,9 @@ public class fieldVector implements fieldItem {
     }
 
     //Subtracts one vector from annother
-    public fieldVector returnDifference(fieldVector subtractedVector) {
+    public fieldVector returnDifference(fieldItem subtractedVector) {
         subtractedVector.scalarMultiply(-1.0);
-        return returnSum(subtractedVector);
+        return returnSum(new fieldVector(subtractedVector.getComponents()));
     }
 
     //Subtracts the second vector from this vector

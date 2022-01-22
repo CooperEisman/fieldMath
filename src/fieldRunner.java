@@ -48,7 +48,7 @@ public class fieldRunner {
                     System.out.println(ANSI_RED + "Incorrect Usage. Operation Failed" + ANSI_RESET + "\n");
                 } else {
                     if(itemNames.contains(args.get(1))) {
-                        edit(itemNames.indexOf(args.get(1)));
+                        remove(itemNames.indexOf(args.get(1)));
                     } else {
                         System.out.println(ANSI_RED + "Item '" + args.get(1) + "' does not exist!" + ANSI_RESET + "\n");
                         System.out.println();
@@ -108,7 +108,60 @@ public class fieldRunner {
     }
 
     private void compute() {
+        System.out.println("What would you like to do?");
+        System.out.println("(1) Create vector between points.");
+        System.out.println("(2) Calculate the angle between two vectors.");
 
+
+        System.out.print("(4) Cancel\n -> ");
+
+        command = console.nextLine().toLowerCase(Locale.ROOT);
+
+        if(command.equals("1")) {
+            vectorBetweenPoints();
+            return;
+        } else if(command.equals("2")) {
+
+        } if(command.equals("3")) {
+
+        } else {
+            System.out.println(ANSI_RED + "Operation Halted, No Changes Made" + ANSI_RESET + "\n");
+        }
+    }
+
+    private void vectorBetweenPoints() {
+        if (config.numItems("point") < 2) {
+            System.out.println(ANSI_RED + "Please create at least two points before attempting this." + ANSI_RESET + "\n");
+            return;
+        }
+
+
+        System.out.print("\nPossible Point Options: \n" + config.toString("point") + "\nPoint One: ");
+        command = console.nextLine();
+        fieldItem one;
+        fieldItem two;
+        if (!itemNames.contains(command)) {
+            System.out.println(ANSI_RED + "Point '" + command + "' does not exist."+ ANSI_RESET + "\n");
+            return;
+        } else {
+            one = items.get(itemNames.indexOf(command));
+        }
+
+        System.out.print("\nPoint Two: ");
+        command = console.nextLine();
+        if (!itemNames.contains(command)) {
+            System.out.println(ANSI_RED + "Point '" + command + "' does not exist."+ ANSI_RESET + "\n");
+            return;
+        } else {
+            two = items.get(itemNames.indexOf(command));
+        }
+
+        fieldVector temp = one.returnDifference(two);
+        System.out.println("What is the name for new Vector: " + temp + " ?");
+
+        command = console.nextLine();
+        config.addItem(temp,command);
+        System.out.println(ANSI_BLUE + "Operation Successful." + ANSI_RESET + "\n");
     }
 
     private void add(String type, String name) {

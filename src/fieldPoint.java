@@ -1,15 +1,15 @@
 public class fieldPoint implements fieldItem {
-    private double[] location;
+    private double[] components;
 
 
     //New point with list of args
     public fieldPoint(double[] location) {
-        this.location = location;
+        this.components = location;
     }
 
-    //New Vector with Length, Initializes to 0.0 at each index
+    //New point with Length, Initializes to 0.0 at each index
     public fieldPoint(int length) {
-        location = new double[length];
+        components = new double[length];
         clear();
     }
 
@@ -20,9 +20,9 @@ public class fieldPoint implements fieldItem {
 
     //toString for output
     public String toString() {
-        String out = "(" + location[0];
-        for(int i = 1;i < location.length; i++) {
-            out += ", " + location[i];
+        String out = "(" + components[0];
+        for(int i = 1; i < components.length; i++) {
+            out += ", " + components[i];
         }
         out += ")";
         return out;
@@ -31,27 +31,27 @@ public class fieldPoint implements fieldItem {
     public String args() {
         String out = "";
 
-        for(int i = 0; i < location.length; i++) {
-            out += " " + getCoordinate(i);
+        for(int i = 0; i < components.length; i++) {
+            out += " " + getComponent(i);
         }
 
         return out;
     }
 
     //Returns a Component at a Dimension
-    public double getCoordinate(int dimension) {
-        if(dimension >= location.length){
+    public double getComponent(int dimension) {
+        if(dimension >= components.length){
             return 0.0;
         }
-        return location[dimension];
+        return components[dimension];
     }
 
     //Gets order of the Point
     public int getOrder() {
-        return location.length;
+        return components.length;
     }
 
-    public fieldVector findDifference(fieldPoint pointTwo) {
+    public fieldVector returnDifference(fieldItem pointTwo) {
         double[] coordinates;
 
         if(pointTwo.getOrder() > getOrder()) {
@@ -61,20 +61,47 @@ public class fieldPoint implements fieldItem {
         }
 
         for(int i = 0; i < coordinates.length; i++) {
-            coordinates[i] = getCoordinate(i) - pointTwo.getCoordinate(i);
+            coordinates[i] = getComponent(i) - pointTwo.getComponent(i);
         }
 
         return new fieldVector(coordinates);
     }
 
-    public double[] getLocation() {
-        return location;
+    public double[] getComponents() {
+        return components;
     }
 
     //Clears the Point
     public void clear() {
-        for(int i = 0;i < location.length; i++) {
-            location[i] = 0.0;
+        for(int i = 0; i < components.length; i++) {
+            components[i] = 0.0;
         }
+    }
+
+    //Returns Scalar Multiple
+    public fieldVector getScalarMultiple(double value) {
+        fieldVector newVector = new fieldVector(getComponents());
+
+        for(int i = 0;i < components.length; i++) {
+            newVector.setComponent(i,components[i]*value);
+        }
+
+        return newVector;
+    }
+
+    //Multiplies this vector by a scalar
+    public void scalarMultiply(double value) {
+        fieldVector newVector = getScalarMultiple(value);
+        setComponents(newVector.getComponents());
+    }
+
+    //Sets component at a given index
+    public void setComponent(int dimension, double value) {
+        components[dimension] = value;
+    }
+
+    //Sets to equal
+    public void setComponents(double[] components) {
+        this.components = components;
     }
 }
