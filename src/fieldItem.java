@@ -1,0 +1,4 @@
+interface fieldItem {
+
+    String type();
+}
