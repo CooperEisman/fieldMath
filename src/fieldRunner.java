@@ -98,7 +98,7 @@ public class fieldRunner {
     private void printMenu() {
         System.out.println("===========================");
         System.out.println("What would you like to do?: ");
-        System.out.println(" - Add <Vector/Point>");
+        System.out.println(" - Add <Type> <Name>");
         System.out.println(" - View <Vectors/Points/All>");
         System.out.println(" - Remove <Item Name>");
         System.out.println(" - Edit <Item Name>");
@@ -112,7 +112,22 @@ public class fieldRunner {
     }
 
     private void add(String type, String name) {
+        System.out.println("What is the order for " + type + " '" + name + "'?");
+        int tempInt = console.nextInt();
+        console.nextLine();
 
+        fieldItem temp;
+
+        if(type.equals("vector")) {
+            temp = new fieldVector(tempInt);
+        } else {
+            temp = new fieldPoint(tempInt);
+        }
+
+        tempInt = items.size();
+        config.addItem(temp,name);
+        updateData();
+        edit(tempInt);
     }
 
     private void edit(int itemIndex) {

@@ -7,6 +7,12 @@ public class fieldPoint implements fieldItem {
         this.location = location;
     }
 
+    //New Vector with Length, Initializes to 0.0 at each index
+    public fieldPoint(int length) {
+        location = new double[length];
+        clear();
+    }
+
     //returns Type
     public String type() {
         return "point";
@@ -63,5 +69,12 @@ public class fieldPoint implements fieldItem {
 
     public double[] getLocation() {
         return location;
+    }
+
+    //Clears the Point
+    public void clear() {
+        for(int i = 0;i < location.length; i++) {
+            location[i] = 0.0;
+        }
     }
 }

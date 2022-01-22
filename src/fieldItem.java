@@ -7,4 +7,7 @@ interface fieldItem {
     String args();
 
     int getOrder();
+
+    //Clears the Vector
+    void clear();
 }
