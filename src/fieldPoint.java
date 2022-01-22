@@ -1,15 +1,17 @@
 public class fieldPoint implements fieldItem {
     private double[] location;
 
+
     //New point with list of args
     public fieldPoint(double[] location) {
         this.location = location;
     }
 
-    //returns type
+    //returns Type
     public String type() {
         return "Point";
     }
+
 
     //Returns a Component at a Dimension
     public double getCoordinate(int dimension) {

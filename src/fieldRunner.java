@@ -7,7 +7,9 @@ public class fieldRunner {
 
 
     public fieldRunner() {
-
+        System.out.println("What would you like to do?");
     }
+
+
 }
 

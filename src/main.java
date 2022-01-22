@@ -5,6 +5,7 @@ public class main {
         fieldVector vU = new fieldVector(a);
         fieldVector vV = new fieldVector(b);
         System.out.println(vV.returnSum(vU));
+        fieldConfig f = new fieldConfig();
 
     }
 
