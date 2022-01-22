@@ -12,6 +12,16 @@ public class fieldPoint implements fieldItem {
         return "Point";
     }
 
+    //toString for output
+    public String toString() {
+        String out = "(" + location[0];
+        for(int i = 1;i < location.length; i++) {
+            out += ", " + location[i];
+        }
+        out += ")";
+        return out;
+    }
+
 
     //Returns a Component at a Dimension
     public double getCoordinate(int dimension) {

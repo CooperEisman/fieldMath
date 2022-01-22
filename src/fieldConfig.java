@@ -69,4 +69,12 @@ public class fieldConfig {
         }
         fileReader.close();
     }
+
+    public String toString() {
+        String out = "";
+        for(int i = 0;i < items.size(); i++) {
+            out += items.get(i).type() + " " + names.get(i) + " " + items.get(i) + "\n";
+        }
+        return out;
+    }
 }
