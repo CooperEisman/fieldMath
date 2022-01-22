@@ -36,6 +36,16 @@ public class fieldVector implements fieldItem {
         return out;
     }
 
+    public String args() {
+        String out = "";
+
+        for(int i = 0; i < components.length; i++) {
+            out += " " + getComponent(i);
+        }
+
+        return out;
+    }
+
     //returns order of the vector
     public int getOrder() {
         return components.length;

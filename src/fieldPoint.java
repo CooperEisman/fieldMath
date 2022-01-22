@@ -22,6 +22,15 @@ public class fieldPoint implements fieldItem {
         return out;
     }
 
+    public String args() {
+        String out = "";
+
+        for(int i = 0; i < location.length; i++) {
+            out += " " + getCoordinate(i);
+        }
+
+        return out;
+    }
 
     //Returns a Component at a Dimension
     public double getCoordinate(int dimension) {

@@ -1,25 +1,32 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Vector;
 
 
 public class fieldConfig {
     private static File myFile = new File("src/config.txt");
     private Scanner fileReader;
     private Scanner stringReader = new Scanner("");
+
+    FileWriter fileWriter;
+
     private ArrayList<fieldItem> items = new ArrayList<fieldItem>();
     private ArrayList<String> names = new ArrayList<String>();
 
     private ArrayList<String> args; //Temporary for storage;
-    private double[] dblArgs;
+    private double[] dblArgs; //Temporary for Storage
 
+    //Constructor
     public fieldConfig() {
         configureReader();
         load();
     }
 
+    //Configures the file reader
     private void configureReader() {
         try {
             fileReader = new Scanner(myFile);
@@ -28,6 +35,30 @@ public class fieldConfig {
         }
     }
 
+    //Configures the file Writer
+    private void configureWriter() {
+        try {
+            fileWriter = new FileWriter(myFile);
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    //Clears the configuration document
+    public void clearDocument() {
+        configureWriter();
+
+        try {
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    //Loads Data from File
     private void load() {
         int len = 0;
 
@@ -68,6 +99,50 @@ public class fieldConfig {
             }
         }
         fileReader.close();
+    }
+
+    //Saves Data to File
+    private void save() {
+        clearDocument();
+        configureWriter();
+
+        try {
+            for(int i = 0; i < items.size(); i++) {
+                fileWriter.write(items.get(i).type() + " " + names.get(i) + items.get(i).args());
+            }
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    //Returns all items in an Array
+    public fieldItem[] getItems() {
+        configureReader();
+        load();
+
+        fieldItem[] out = new fieldItem[items.size()];
+
+        for (int i = 0; i < items.size(); i++) {
+            out[i] = items.get(i);
+        }
+
+        return out;
+    }
+
+    //Returns all names in an Array
+    public String[] getNames() {
+        configureReader();
+        load();
+
+        String[] out = new String[names.size()];
+
+        for (int i = 0; i < items.size(); i++) {
+            out[i] = names.get(i);
+        }
+
+        return out;
     }
 
     public String toString() {
