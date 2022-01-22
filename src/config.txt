@@ -1,4 +1,0 @@
-vector vectortwo 1.0 2.0 3.0 4.0 5.0
-point pointone 1.0 1.0 1.0
-point pointtwo 12.0 34.0 56.0
-vector vectorone 1.0 1.0 1.0

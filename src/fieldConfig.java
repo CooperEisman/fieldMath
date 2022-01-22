@@ -57,6 +57,7 @@ public class fieldConfig {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        load();
     }
 
     //Loads Data from File

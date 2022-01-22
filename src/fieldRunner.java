@@ -13,6 +13,7 @@ public class fieldRunner {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
     private Scanner stringReader = new Scanner("");
 
     private ArrayList<String> args;
@@ -31,7 +32,7 @@ public class fieldRunner {
                 args.add(stringReader.next());
             }
 
-            if(command.startsWith("add")) {
+            if(args.get(0).equals("add")) {
                 if(args.size() != 3) {
                     System.out.println(ANSI_RED + "Incorrect Usage. Operation Failed" + ANSI_RESET + "\n");
                 } else {
@@ -42,7 +43,7 @@ public class fieldRunner {
                     System.out.println();
                 }
             }
-            } else if (command.startsWith("remove")) {
+            } else if (args.get(0).equals("remove")) {
                 if(args.size() != 2) {
                     System.out.println(ANSI_RED + "Incorrect Usage. Operation Failed" + ANSI_RESET + "\n");
                 } else {
@@ -53,7 +54,7 @@ public class fieldRunner {
                         System.out.println();
                     }
                 }
-            } else if (command.startsWith("edit")) {
+            } else if (args.get(0).equals("edit")) {
                 if(args.size() != 2) {
                     System.out.println(ANSI_RED + "Incorrect Usage. Operation Failed" + ANSI_RESET + "\n");
                 } else {
@@ -64,10 +65,10 @@ public class fieldRunner {
                         System.out.println();
                     }
                 }
-            } else if (command.startsWith("compute"))
+            } else if (args.get(0).equals("compute"))
             {
                 compute();
-            } else if (command.startsWith("view")) {
+            } else if (args.get(0).equals("view")) {
                 if (args.size() > 2 || args.size() < 2) {
                     System.out.println(ANSI_RED + "Incorrect Usage. Operation Failed" + ANSI_RESET + "\n");
                 } else {
@@ -82,6 +83,12 @@ public class fieldRunner {
                         System.out.println();
                     }
                 }
+            } else if (args.get(0).equals("clear")) {
+                    if(args.size() != 1) {
+                        System.out.println(ANSI_RED + "Incorrect Usage. Operation Failed" + ANSI_RESET + "\n");
+                    } else {
+                        clear();
+                    }
             } else {
                 System.out.println(ANSI_RED + "Command does not exist." + ANSI_RESET + "\n");
             }
@@ -95,6 +102,7 @@ public class fieldRunner {
         System.out.println(" - View <Vectors/Points/All>");
         System.out.println(" - Remove <Item Name>");
         System.out.println(" - Edit <Item Name>");
+        System.out.println(" - Clear");
         System.out.println(" - Compute");
         System.out.print("===========================\n\n\n -> ");
     }
@@ -147,12 +155,34 @@ public class fieldRunner {
             config.addItem(temp,name);
             System.out.println(ANSI_BLUE + "Operation Successful." + ANSI_RESET + "\n");
         } else {
-            System.out.println(ANSI_RED + "Operation Halted. No Changes Made" + ANSI_RESET + "\n");
+            System.out.println(ANSI_RED + "Operation Stopped. No Changes Made" + ANSI_RESET + "\n");
         }
     }
 
     private void remove(int itemIndex) {
+        System.out.println("\n");
+        System.out.println(ANSI_YELLOW + "Are you sure you want to clear ALL saved data? (yes/no)" + ANSI_RESET + "\n -> ");
+        command = console.nextLine();
 
+        if(command.equals("yes")) {
+            config.clearDocument();
+            System.out.println(ANSI_BLUE + "Operation Successful." + ANSI_RESET + "\n");
+        } else {
+            System.out.println(ANSI_RED + "Operation Stopped. No Changes Made" + ANSI_RESET + "\n");
+        }
+    }
+
+    private void clear() {
+        System.out.println("\n");
+        System.out.print(ANSI_YELLOW + "Are you sure you want to clear ALL saved data? (yes/no)" + ANSI_RESET + "\n -> ");
+        command = console.nextLine();
+
+        if(command.equals("yes")) {
+            config.clearDocument();
+            System.out.println(ANSI_BLUE + "Operation Successful." + ANSI_RESET + "\n");
+        } else {
+            System.out.println(ANSI_RED + "Operation Stopped. No Changes Made" + ANSI_RESET + "\n");
+        }
     }
 
     private void updateData() {
