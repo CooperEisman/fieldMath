@@ -6,6 +6,7 @@ public class main {
         fieldVector vV = new fieldVector(b);
         System.out.println(vV.returnSum(vU));
         fieldConfig f = new fieldConfig();
+        System.out.println(f);
 
     }
 

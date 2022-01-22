@@ -47,9 +47,9 @@ public class fieldConfig {
                 args.add(stringReader.next());
             }
 
-            names.add(args.get(0));
+            names.add(args.get(1));
 
-            if(args.get(1).equals("Vector")) {
+            if(args.get(0).equals("Vector")) {
                 dblArgs = new double[args.size() - 2];
 
                 for(int i = 2; i < args.size(); i++) {
@@ -57,7 +57,7 @@ public class fieldConfig {
                 }
 
                 items.add(new fieldVector(dblArgs));
-            } else if(args.get(1).equals("Point")) {
+            } else if(args.get(0).equals("Point")) {
                 dblArgs = new double[args.size() - 2];
 
                 for (int i = 2; i < args.size(); i++) {

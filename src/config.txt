@@ -1,3 +1,4 @@
 Vector VectorOne 1 2 3
 Vector VectorTwo 1 2 3 4 5
 Point PointOne 12 34 56
+Point PointTwo 12 34 56
